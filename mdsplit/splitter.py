@@ -45,8 +45,13 @@ def split(lines: Iterable[str], depth: int=1, dir_leaves: bool=False) -> None:
         
         stack[-1].children.append(node)
 
-        if node > stack[-1]:
+        # Nested heading, exactly 1 level deeper
+        if node.value - stack[-1].value == 1:
             stack.append(node)
+        
+        else:
+            raise ValueError("Improperly formed Markdown: "
+                             "nested headings must be at most 1 level deeper")
 
     print_tree(root)
     
